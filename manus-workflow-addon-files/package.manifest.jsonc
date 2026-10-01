@@ -1,0 +1,90 @@
+{
+  "schema_version": "0.1",
+  "kind": "manus_addon_package",
+  "distribution": "managed",
+  "update_mode": "hot",
+  "addon": {
+    "id": "manus-workflow",
+    "version": "0.0.23",
+    "owner": "manus",
+    "display_name": "Workflow",
+    "description": "Deterministic multi-subagent orchestration (the workflow MCP server's run tool) as an add-on package (mono#850).",
+    "backend_mode": "none"
+  },
+  "mcp_servers": {
+    "workflow": {
+      "execution_mode": "runtime_mcp",
+      "execution_modes": [
+        "runtime_mcp",
+        "device_mcp"
+      ],
+      "transport": "stdio",
+      "description": "Deterministic multi-subagent orchestration. Subagents: Parent-only; this server is not callable from subagents and nested workflows are unsupported. It fans out its own subagents through agent(). Concurrency: agent() calls in parallel() run concurrently; use isolated sandboxes for independent stateful work and distinct output paths for parallel file generation.",
+      "command": "sh",
+      "args": [
+        "runtime/workflow.sh",
+        "mcp"
+      ],
+      "model_visible_tools": [
+        "run"
+      ],
+      "host_callable_tools": [
+        "_start",
+        "_cancel"
+      ]
+    }
+  },
+  "device_artifacts": [
+    {
+      "target": {
+        "os": "darwin",
+        "arch": "arm64"
+      },
+      "path": "device/darwin-arm64.tar.gz"
+    },
+    {
+      "target": {
+        "os": "darwin",
+        "arch": "amd64"
+      },
+      "path": "device/darwin-amd64.tar.gz"
+    },
+    {
+      "target": {
+        "os": "windows",
+        "arch": "arm64"
+      },
+      "path": "device/windows-arm64.tar.gz"
+    },
+    {
+      "target": {
+        "os": "windows",
+        "arch": "amd64"
+      },
+      "path": "device/windows-amd64.tar.gz"
+    },
+    {
+      "target": {
+        "os": "linux",
+        "arch": "amd64",
+        "libc": "gnu"
+      },
+      "path": "device/linux-amd64-gnu.tar.gz"
+    },
+    {
+      "target": {
+        "os": "linux",
+        "arch": "arm64",
+        "libc": "gnu"
+      },
+      "path": "device/linux-arm64-gnu.tar.gz"
+    }
+  ],
+  "skills": {
+    "workflow-composer": {
+      "name": "workflow-composer",
+      "mcp_server": "workflow",
+      "path": "skills/workflow-composer"
+    }
+  }
+}
